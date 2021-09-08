@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: swagger2word
+  namespace: tool
+  labels:
+    app: swagger2word
+spec:
+  type: NodePort
+  sessionAffinity: ClientIP
+  ports:
+    - name: swagger2word
+      port: 8080
+      targetPort: 8080
+      nodePort: 30808
+  selector:
+    project: ms
+    app: swagger2word
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swagger2word
+  namespace: tool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: ms
+      app: swagger2word
+  template:
+    metadata:
+      labels:
+        project: ms
+        app: swagger2word
+    spec:
+      #当删除Pod时，等待时间
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: swagger2word
+          image: tool/swagger2word:1.0.03-release
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+              # 挂载一个空目录用于共享
+            - name: logs
+              # 容器内目录地址
+              mountPath: /app/logs
+          ports:
+            - protocol: TCP
+              containerPort: 8080
+          env:
+            - name: APP_NAME
+              value: swagger2word
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          resources:
+            limits:
+              cpu: 1
+              memory: 500Mi
+#            requests:
+#              cpu: 0.5
+#              memory: 125Mi
+          #就绪探针
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            #延迟加载时间
+            initialDelaySeconds: 50
+            #重试时间间隔
+            periodSeconds: 5
+            #超时时间设置
+            timeoutSeconds: 10
+            #探测失败的重试次数
+            failureThreshold: 5
+          #存活探针
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 50
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 3
+        - name: filebeat
+          # 边车有版本要求，所以不加到这里来
+#          lifecycle:
+#            type: Sidecar
+          image: elastic/filebeat:7.9.3
+          imagePullPolicy: IfNotPresent
+          args:
+            - -environment
+            - container
+            - -c
+            - /usr/share/filebeat/config/filebeat.yml
+          volumeMounts:
+              # 独立的配置文件，这个配置文件通过kubectl create configmap --from-file=path
+              # kubectl create -n tool configmap swagger2word-filebeat-config --from-file=`pwd`
+              # kubectl delete -n tool configmap swagger2word-filebeat-config
+            - name: filebeat-config
+              # 机子内目录
+              mountPath: /usr/share/filebeat/config
+            - name: logs
+              #机子内目录
+              mountPath: /app/logs
+          resources:
+            limits:
+              memory: 200Mi
+          readinessProbe:
+            #使用命令检查
+            exec:
+              #指令，通过获取是否有锁来判断是否成功
+              command:
+                #指令
+                - cat
+                - /usr/share/filebeat/data/filebeat.lock
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - /usr/share/filebeat/data/filebeat.lock
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 3
+      volumes:
+        - name: logs
+          emptyDir: {}
+        - name: filebeat-config
+          configMap:
+            # 把configMap挂载成机子内的文件，kubectl create configmap --from-file=path
+            name: swagger2word-filebeat-config
+            items:
+              - key: filebeat.yml
+                path: filebeat.yml

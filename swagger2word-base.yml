@@ -1,0 +1,73 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: swagger2word
+  namespace: tool
+  labels:
+    app: swagger2word
+spec:
+  type: NodePort
+  sessionAffinity: ClientIP
+  ports:
+    - name: swagger2word
+      port: 8080
+      targetPort: 8080
+      nodePort: 30808
+  selector:
+    project: ms
+    app: swagger2word
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swagger2word
+  namespace: tool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: ms
+      app: swagger2word
+  template:
+    metadata:
+      labels:
+        project: ms
+        app: swagger2word
+    spec:
+      terminationGracePeriodSeconds: 10 #当删除Pod时，等待时间
+      containers:
+        - name: swagger2word
+          image: tool/swagger2word:1.0.01-release
+          imagePullPolicy: IfNotPresent
+          ports:
+            - protocol: TCP
+              containerPort: 8080
+          env:
+            - name: APP_NAME
+              value: swagger2word
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          resources:
+            limits:
+              cpu: 1
+              memory: 1024Mi
+            requests:
+              cpu: 0.5
+              memory: 125Mi
+          readinessProbe:              #就绪探针
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+          livenessProbe:               #存活探针
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
