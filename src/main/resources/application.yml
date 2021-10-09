@@ -20,6 +20,8 @@ spring:
 # Swagger json url address
 # etc. https://petstore.swagger.io/
 swagger.url: https://petstore.swagger.io/v2/swagger.json
+knife4j:
+  enable: true
 
 
 

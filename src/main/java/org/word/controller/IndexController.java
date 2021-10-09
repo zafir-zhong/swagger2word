@@ -22,6 +22,6 @@ public class IndexController {
     @ApiIgnore
     @RequestMapping(value = "/")
     public String index(HttpServletRequest request) {
-        return "redirect:swagger-ui.html";
+        return "redirect:doc.html";
     }
 }

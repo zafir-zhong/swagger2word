@@ -2,7 +2,7 @@ package org.word;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
  * @author cuixiuyin
@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date: 2018/12/19 21:32
  */
 @SpringBootApplication
-@EnableSwagger2
+@EnableSwagger2WebMvc
 public class Application {
 
     public static void main(String[] args) {
