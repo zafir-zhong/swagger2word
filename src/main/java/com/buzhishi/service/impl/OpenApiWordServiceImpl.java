@@ -1,5 +1,10 @@
-package org.word.service.impl;
+package com.buzhishi.service.impl;
 
+import com.buzhishi.model.ModelAttr;
+import com.buzhishi.model.Request;
+import com.buzhishi.model.Response;
+import com.buzhishi.model.Table;
+import com.buzhishi.service.OpenApiWordService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -8,14 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.word.model.ModelAttr;
-import org.word.model.Request;
-import org.word.model.Response;
-import org.word.model.Table;
-import org.word.service.OpenApiWordService;
-import org.word.utils.JsonUtils;
-import org.word.utils.RequestUtils;
-import org.word.utils.ResponseUtils;
+import com.buzhishi.utils.JsonUtils;
+import com.buzhishi.utils.RequestUtils;
+import com.buzhishi.utils.ResponseUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -338,7 +338,7 @@ public class OpenApiWordServiceImpl implements OpenApiWordService {
      * @param responses 全部状态码返回对象
      * @return
      */
-    private List<Response> processResponseCodeList(Map<String, Object> responses,  Map<String, ModelAttr> definitinMap ) throws JsonProcessingException  {
+    private List<Response> processResponseCodeList(Map<String, Object> responses, Map<String, ModelAttr> definitinMap ) throws JsonProcessingException  {
         List<Response> responseList = new ArrayList<>();
         Iterator<Map.Entry<String, Object>> resIt = responses.entrySet().iterator();
         while (resIt.hasNext()) {

@@ -1,5 +1,6 @@
-package org.word.controller;
+package com.buzhishi.controller;
 
+import com.buzhishi.service.OpenApiWordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.word.service.OpenApiWordService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

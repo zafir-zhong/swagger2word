@@ -1,4 +1,4 @@
-package org.word.controller;
+package com.buzhishi.controller;
 
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.word.service.WordService;
+import com.buzhishi.service.WordService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

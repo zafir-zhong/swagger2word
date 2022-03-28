@@ -1,4 +1,4 @@
-package org.word.utils;
+package com.buzhishi.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;

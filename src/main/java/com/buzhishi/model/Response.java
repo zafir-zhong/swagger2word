@@ -1,4 +1,4 @@
-package org.word.model;
+package com.buzhishi.model;
 
 import java.io.Serializable;
 

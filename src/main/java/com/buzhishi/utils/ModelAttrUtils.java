@@ -1,4 +1,4 @@
-package org.word.utils;
+package com.buzhishi.utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.buzhishi.model.ModelAttr;
 import org.apache.commons.lang3.StringUtils;
-import org.word.model.ModelAttr;
 
 /**
  * @author ivenhan

@@ -1,4 +1,4 @@
-package org.word.config;
+package com.buzhishi.config;
 
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;

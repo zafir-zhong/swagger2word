@@ -1,5 +1,9 @@
-package org.word.service.impl;
+package com.buzhishi.service.impl;
 
+import com.buzhishi.model.ModelAttr;
+import com.buzhishi.model.Request;
+import com.buzhishi.model.Response;
+import com.buzhishi.model.Table;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -8,12 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.word.model.ModelAttr;
-import org.word.model.Request;
-import org.word.model.Response;
-import org.word.model.Table;
-import org.word.service.WordService;
-import org.word.utils.JsonUtils;
+import com.buzhishi.service.WordService;
+import com.buzhishi.utils.JsonUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;

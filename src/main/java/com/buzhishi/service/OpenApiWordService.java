@@ -1,4 +1,4 @@
-package org.word.service;
+package com.buzhishi.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,4 +1,4 @@
-package org.word.utils;
+package com.buzhishi.utils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

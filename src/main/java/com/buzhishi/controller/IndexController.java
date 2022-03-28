@@ -1,4 +1,4 @@
-package org.word.controller;
+package com.buzhishi.controller;
 
 
 import io.swagger.annotations.ApiOperation;
